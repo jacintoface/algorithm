@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    function insertSort(arr) {
+        for (let i = 1; i < arr.length; i++) {
+
+            // 1、最初版的插入排序
+            // 寻找arr[i] 合适的插入位置， 吧每一个位置和前一个位置的元素进行比较，当j = 1 的时候和j = 0 比较，当j = 0 就没有比较的意义了，所以j 最小是1
+            // for (let j = i; j > 0; j--) {
+            //     if (arr[j] < arr[j - 1]) {
+            //         let temp = arr[j]
+            //         arr[j] = arr[j - 1]
+            //         arr[j - 1] = temp
+            //     } else {
+            //         break
+            //     }
+            // }
+
+            // 也可以简写如下
+            // for (let j = i; j > 0 && (arr[j] < arr[j - 1]); j--) {
+            //     let temp = arr[j]
+            //     arr[j] = arr[j - 1]
+            //     arr[j - 1] = temp
+            // }
+
+            // 这里存在一个性能问题，就是每次切换，都会对对象进行赋值操作，赋值操作过多，可能反而性能不如选择排序
+
+            // 2、 改进后的插入排序
+            let e = arr[i] // 用一个变量储存当前值
+            let j;
+            for (j = i; j > 0 && arr[j - 1] > e; j--) {
+                arr[j] = arr[j - 1]
+            }
+            arr[j] = e
+        }
+        return arr
+    }
+    console.log(insertSort([156,1263,48,46,748,91,486,165,7489,465,416,78,974,498]))
+</script>
+<script src="on2.js"></script>
+</body>
+</html>
