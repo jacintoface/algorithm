@@ -166,7 +166,7 @@ function __queueSort(arr, l, r) {
     if (l >= r) {
         return
     }
-    let p = __partition(arr, l, r)
+    let p = __partition2(arr, l, r)
     __queueSort(arr, l, p -1)
     __queueSort(arr,p+1, r)
     return arr;
@@ -202,5 +202,65 @@ function __partition(arr, l, r) {
     return j
 }
 
-console.log(logTime(queueSort, generateRandomArray(500, 0, 5000)))
+// 当有大量重复元素，选择partition2， 两边以此向中间靠近
+function __partition2 (arr, l, r) {
+    let v = arr[l]
+
+    let i = l + 1, j = r
+
+    // arr[l + 1...i) <= v  arr(j...r] >= v
+    while (true) {
+        while (i <= j && arr[i] < v) i++;
+        while (j > l + 1 && arr[i] > v) j--;
+        if (i > j) {
+            break
+        }
+        let temp = arr[i]
+        arr[i] = arr[j]
+        arr[j] = temp
+
+        i++
+        j--
+    }
+
+    let temp = arr[l]
+    arr[l] = arr[j]
+    arr[j] = temp
+}
+
+// 将数组分为3部分  < v =v >v
+function __partition3 (arr, l, r) {
+
+    if (r - l <= 15) {
+        // insertSort()
+        return
+    }
+
+    let v = arr[l];
+
+    let lt = l; // arr[l+1...lt] < v
+    let gt = r + 1; //arr[gt...r] > v
+    let i = l + 1;  //arr[lt+1...i] == v
+
+    while (i < gt) {
+        if (arr[i] < v) {
+            swap(arr, i, lt + 1)
+            lt++
+            i++
+        } else if(arr[i] > v){
+            swap(arr, i, gt-1)
+            gt--
+        } else {
+            i++
+        }
+    }
+}
+
+function swap (arr, i, j) {
+    let temp = arr[i]
+    arr[i] = arr[j]
+    arr[j] = temp
+}
+
+console.log(logTime(queueSort, generateRandomArray(500, 0, 5)))
 
